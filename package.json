@@ -1,0 +1,52 @@
+{
+  "name": "ebso-token",
+  "version": "1.0.0",
+  "description": "ebso-token",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run compile",
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "coverage": "hardhat coverage",
+    "deploy": "hardhat run --network localhost src/scripts/deploy.ts",
+    "clean-logs": "hardhat remove-logs",
+    "deploy:prd": "npm run clean-logs && hardhat run --network localhost src/scripts/deploy.ts",
+    "verify:ropsten": "hardhat --network ropsten etherscan-verify",
+    "deploy:ropsten": "npm run clean-logs && hardhat run --network ropsten src/scripts/deploy.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.blockben.ninja/blockbencore/bb/ebso-token.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@typechain/ethers-v5": "^6.0.5",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.13",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.4.0",
+    "hardhat": "^2.6.0",
+    "hardhat-abi-exporter": "^2.2.1",
+    "hardhat-contract-sizer": "^2.0.3",
+    "hardhat-deploy": "^0.8.11",
+    "hardhat-gas-reporter": "^1.0.4",
+    "hardhat-log-remover": "^2.0.2",
+    "hardhat-typechain": "^0.3.5",
+    "mocha": "^7.2.0",
+    "solidity-coverage": "^0.7.16",
+    "ts-generator": "^0.1.1",
+    "ts-node": "^10.2.0",
+    "typechain": "^4.0.3",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "@openzeppelin/contracts-upgradeable": "^4.2.0"
+  }
+}
