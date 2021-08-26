@@ -74,17 +74,7 @@
 - if only a treasury admin is compromised it can be rechanged by a eBSO admin
 - if only a AML admin is compromised it can be rechanged by a eBSO admin
 
-Deploying contracts with the account: 0xAe153bf83A60d7c8AC97e0428baFde7E166628c3
-Account balance: 300000000000000000
-eBSOFactory deployed! Address: 0xCA49dB987556dE7F67Ad132c96CeC6410ED851b9
-
-Deploying contracts with the account: 0xAe153bf83A60d7c8AC97e0428baFde7E166628c3
-Account balance: 289066900054693800
-eBSO deployed! Address: 0x977286DfDeB3131C33abC684871B94f7a2F2BA6e
-
-EBlockStock deployed! Address: 0x48B8e30e1a050C51b6119029F3A56bAFaf5c2799
-
-**EBlockStock Address (Ropsten): 0x574dBE4b4b3aF91fb92bd76d3952086944b1dC38**
+**EBlockStock Address (Ropsten): 0x7983a25F987aCEfE6A65682ddde0b9983e3146cC**
 
 ---------------------|----------|----------|----------|----------|----------------|
 File | % Stmts | % Branch | % Funcs | % Lines |Uncovered Lines |
