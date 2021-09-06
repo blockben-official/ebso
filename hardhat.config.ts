@@ -34,9 +34,9 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  etherscan: {
-    apiKey: `${process.env.ETHERSCAN_API_KEY}`,
-  },
+  // etherscan: {
+  //   apiKey: `${process.env.ETHERSCAN_API_KEY}`,
+  // },
   abiExporter: {
     clear: true,
     flat: true,
@@ -59,13 +59,13 @@ const config: HardhatUserConfig = {
       tags: ['local'],
       url: 'http://127.0.0.1:8545/',
     },
-    ropsten: {
-      url: `${process.env.ETH_NODE_URI_ROPSTEN}`,
-      accounts: [`${process.env.SUPERADMIN_ACCOUNT_ADDRESS_ROPSTEN}`],
-      live: true,
-      saveDeployments: true,
-      tags: ['test', 'uat'],
-    },
+    // ropsten: {
+    //   url: `${process.env.ETH_NODE_URI_ROPSTEN}`,
+    //   accounts: [`${process.env.SUPERADMIN_ACCOUNT_ADDRESS_ROPSTEN}`],
+    //   live: true,
+    //   saveDeployments: true,
+    //   tags: ['test', 'uat'],
+    // },
   },
   contractSizer: {
     alphaSort: true,
