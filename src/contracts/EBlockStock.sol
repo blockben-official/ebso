@@ -117,6 +117,11 @@ contract EBlockStock is ERC20, EBlockStockACL {
     if ((_sender == treasuryAddress) || (_recipient == treasuryAddress)) {
       super._transfer(_sender, _recipient, _amount);
     } else {
+      /**
+       * Three decimal in percent.
+       * The decimal correction is 100.000, but to avoid rounding errors, first divide by 10.000
+       * and after that the calculation must add 5 and divide 10 at the end.
+       */
       uint256 decimalCorrection = 10000;
       uint256 generalFeePercent256 = generalFee;
       uint256 bsoFeePercent256 = bsoFee;
