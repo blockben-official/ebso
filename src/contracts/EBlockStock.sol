@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.4;
+pragma solidity 0.8.4;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/utils/math/SafeMath.sol';
@@ -83,7 +83,7 @@ contract EBlockStock is ERC20, EBlockStockACL {
    * @param _amount The burning amount
    */
   function burn(uint256 _amount) external onlyRole(TREASURY_ADMIN) whenNotPaused {
-    require(getSourceAccountBL(treasuryAddress) == false, 'Blacklist: treasury');
+    require(!getSourceAccountBL(treasuryAddress), 'Blacklist: treasury');
     _burn(treasuryAddress, _amount);
   }
 
@@ -100,7 +100,7 @@ contract EBlockStock is ERC20, EBlockStockACL {
    * @param _amount The minting amount
    */
   function _mint(address _account, uint256 _amount) internal override {
-    require(getDestinationAccountBL(_account) == false, 'Blacklist: target');
+    require(!getDestinationAccountBL(_account), 'Blacklist: target');
     super._mint(_account, _amount);
   }
 
@@ -118,8 +118,8 @@ contract EBlockStock is ERC20, EBlockStockACL {
     address _recipient,
     uint256 _amount
   ) internal override {
-    require(getSourceAccountBL(_sender) == false, 'Blacklist: sender');
-    require(getDestinationAccountBL(_recipient) == false, 'Blacklist: recipient');
+    require(!getSourceAccountBL(_sender), 'Blacklist: sender');
+    require(!getDestinationAccountBL(_recipient), 'Blacklist: recipient');
 
     if ((_sender == treasuryAddress) || (_recipient == treasuryAddress)) {
       super._transfer(_sender, _recipient, _amount);

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.4;
+pragma solidity 0.8.4;
 
 import '@openzeppelin/contracts/security/Pausable.sol';
 import '@openzeppelin/contracts/access/AccessControl.sol';
@@ -24,6 +24,9 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
 
   mapping(address => bool) destinationAccountBL;
 
+  /**
+   * @notice Public URL, that contains detailed up-to-date information about the token.
+   */
   string public url;
 
   address public treasuryAddress;
@@ -43,6 +46,7 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
 
   // Setting the superadmin and adding the deployer as admin
   constructor(address _superadmin) {
+    require(_superadmin != address(0), '_superadmin cannot be 0');
     superadmin = _superadmin;
 
     _setRoleAdmin(EBSO_ADMIN, EBSO_ADMIN);
@@ -90,16 +94,19 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
   }
 
   function setTreasuryAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+    require(_newAddress != address(0), 'treasury address cannot be 0');
     treasuryAddress = _newAddress;
     emit eBSOTreasuryAddressChange(_newAddress);
   }
 
   function setFeeAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+    require(_newAddress != address(0), 'fee address cannot be 0');
     feeAddress = _newAddress;
     emit eBSOFeeAddressChange(_newAddress);
   }
 
   function setBsoPoolAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+    require(_newAddress != address(0), 'bso pool address cannot be 0');
     bsoPoolAddress = _newAddress;
     emit eBSOBsoPoolAddressChange(_newAddress);
   }

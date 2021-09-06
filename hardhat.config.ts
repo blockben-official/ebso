@@ -43,7 +43,8 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      blockGasLimit: 87500000000,
+      initialBaseFeePerGas: 0,
+      gas: 'auto',
       allowUnlimitedContractSize: true,
       live: false,
       saveDeployments: true,
@@ -52,6 +53,7 @@ const config: HardhatUserConfig = {
     localhost: {
       allowUnlimitedContractSize: true,
       blockGasLimit: 87500000000,
+      minGasPrice: 0,
       live: false,
       saveDeployments: true,
       tags: ['local'],
