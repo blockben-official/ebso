@@ -41,5 +41,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README
 - CHANGELOG
 
-[unreleased]: https://github.com/blockben-official/ebso/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/blockben-official/ebso/compare/v0.0.1...HEAD
 [0.0.1]: https://github.com/blockben-official/ebso/releases/tag/v0.0.1
