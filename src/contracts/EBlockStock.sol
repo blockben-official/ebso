@@ -88,13 +88,6 @@ contract EBlockStock is ERC20, EBlockStockACL {
   }
 
   /**
-   * @param _toCashOut The receiver of the leftover eBSO
-   */
-  function kill(address payable _toCashOut) external onlyRole(EBSO_ADMIN) whenPaused {
-    selfdestruct(_toCashOut);
-  }
-
-  /**
    * @notice Account must not be on blacklist
    * @param _account Mint eBSO to this account
    * @param _amount The minting amount

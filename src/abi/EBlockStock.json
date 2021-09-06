@@ -624,19 +624,6 @@
   {
     "inputs": [
       {
-        "internalType": "address payable",
-        "name": "_toCashOut",
-        "type": "address"
-      }
-    ],
-    "name": "kill",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "_account",
         "type": "address"

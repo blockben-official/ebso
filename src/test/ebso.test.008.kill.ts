@@ -7,7 +7,14 @@ import chai from 'chai';
 chai.use(solidity);
 const { expect } = chai;
 
-describe('eBSO - 008: kill', () => {
+/**
+ * Test the kill functionality.
+ *
+ * Kill function has been removed in v0.0.2
+ *
+ * @deprecated since v0.0.2
+ */
+describe.skip('eBSO - 008: kill', () => {
   let EBSO: EBlockStock;
   let owner: SignerWithAddress;
   let superadmin: SignerWithAddress;
@@ -40,8 +47,7 @@ describe('eBSO - 008: kill', () => {
   });
 
   it('not paused contract cannot be killed', async () => {
-    await expect(EBSO.kill(cashOut.address)).to
-      .be.revertedWith('Pausable: not paused');
+    await expect(EBSO.kill(cashOut.address)).to.be.revertedWith('Pausable: not paused');
   });
 
   it('an eBSO admin should be able to kill the contract', async () => {
@@ -59,21 +65,18 @@ describe('eBSO - 008: kill', () => {
   it('an AML admin should not be able to kill the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(amlAdmin).kill(cashOut.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).kill(cashOut.address)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to kill the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(treasuryAdmin).kill(cashOut.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).kill(cashOut.address)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to kill the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(user).kill(cashOut.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).kill(cashOut.address)).to.be.revertedWith('missing role');
   });
 });
