@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2021-09-07
+
+## Changed
+
+- EBA-01: lock compiler version to 0.8.4
+- EBA-02: description for `url` property
+- EBA-03: input validation at address setters
+- EBS-01: lock compiler version to 0.8.4
+- EBS-02: description for transfer algorithm
+- EBS-03: boolean equality at blacklist checks
+- EBS-04: `kill` function tests skipped
+
+## Added
+
+- EBS-03: tests for EBS-03
+- Github action to run coverage tests as PR
+
+## Removed
+
+- EBS-04: `kill` function has been removed
+
+
 ## [0.0.1] - 2021-08-26
 
 ### Added
@@ -41,5 +63,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README
 - CHANGELOG
 
-[unreleased]: https://github.com/blockben-official/ebso/compare/v0.0.1...HEAD
+[unreleased]: https://github.com/blockben-official/ebso/compare/v0.0.2...HEAD
 [0.0.1]: https://github.com/blockben-official/ebso/releases/tag/v0.0.1
+[0.0.2]: https://github.com/blockben-official/ebso/releases/tag/v0.0.2

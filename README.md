@@ -53,7 +53,6 @@
 - setting bsoFee and the related address
 - setting generalFee and the related address
 - pausing or unpausing the contract
-- destroying the contract
 
 #### Treasury admin can:
 
@@ -111,7 +110,3 @@ When running coverage tests, the testing framework adds some extra functionality
 | EBlockStockACL.sol    | 100        | 100        | 100        | 100        |                  |
 | --------------------- | ---------- | ---------- | ---------- | ---------- | ---------------- |
 | All files             | 100        | 100        | 100        | 100        |                  |
-
-## TODO
-
-- [ ] write tests for [EBA-03]
