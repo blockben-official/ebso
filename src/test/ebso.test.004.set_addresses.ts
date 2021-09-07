@@ -21,6 +21,8 @@ describe('eBSO - 004: set addresses', () => {
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
+  const nullAddress: string = '0x0000000000000000000000000000000000000000';
+
   beforeEach(async () => {
     [owner, superadmin, eBSOAdmin, amlAdmin, treasuryAdmin, user, ...addresses] = await ethers.getSigners();
 
@@ -40,10 +42,12 @@ describe('eBSO - 004: set addresses', () => {
     expect(feeAddress).to.eq(user.address);
   });
 
+  it('fee address can not be set to zero address', async () => {
+    await expect(EBSO.setFeeAddress(nullAddress)).to.be.revertedWith('fee address cannot be 0');
+  });
+
   it('setting fee address should emit event', async () => {
-    await expect(EBSO.setFeeAddress(user.address)).to
-      .emit(EBSO, 'eBSOFeeAddressChange')
-      .withArgs(user.address);
+    await expect(EBSO.setFeeAddress(user.address)).to.emit(EBSO, 'eBSOFeeAddressChange').withArgs(user.address);
   });
 
   it('an eBSO admin should be able to set fee address', async () => {
@@ -63,18 +67,15 @@ describe('eBSO - 004: set addresses', () => {
   });
 
   it('an AML admin should not be able to set fee address', async () => {
-    await expect(EBSO.connect(amlAdmin).setFeeAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setFeeAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set fee address', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setFeeAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setFeeAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set fee address', async () => {
-    await expect(EBSO.connect(user).setFeeAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setFeeAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('BSO pool address can be set', async () => {
@@ -85,10 +86,12 @@ describe('eBSO - 004: set addresses', () => {
     expect(bsoPoolAddress).to.eq(user.address);
   });
 
+  it('BSO pool address can not be set to zero address', async () => {
+    await expect(EBSO.setBsoPoolAddress(nullAddress)).to.be.revertedWith('bso pool address cannot be 0');
+  });
+
   it('setting BSO pool address should emit event', async () => {
-    await expect(EBSO.setBsoPoolAddress(user.address)).to
-      .emit(EBSO, 'eBSOBsoPoolAddressChange')
-      .withArgs(user.address);
+    await expect(EBSO.setBsoPoolAddress(user.address)).to.emit(EBSO, 'eBSOBsoPoolAddressChange').withArgs(user.address);
   });
 
   it('an eBSO admin should be able to set BSO pool address', async () => {
@@ -108,18 +111,15 @@ describe('eBSO - 004: set addresses', () => {
   });
 
   it('an AML admin should not be able to set BSO pool address', async () => {
-    await expect(EBSO.connect(amlAdmin).setBsoPoolAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setBsoPoolAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set BSO pool address', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setBsoPoolAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setBsoPoolAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set BSO pool address', async () => {
-    await expect(EBSO.connect(user).setBsoPoolAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setBsoPoolAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('treasury address can be set', async () => {
@@ -130,9 +130,13 @@ describe('eBSO - 004: set addresses', () => {
     expect(treasuryAddress).to.eq(user.address);
   });
 
+  it('treasury address can not be set to zero address', async () => {
+    await expect(EBSO.setTreasuryAddress(nullAddress)).to.be.revertedWith('treasury address cannot be 0');
+  });
+
   it('setting treasury address should emit event', async () => {
-    await expect(EBSO.setTreasuryAddress(user.address)).to
-      .emit(EBSO, 'eBSOTreasuryAddressChange')
+    await expect(EBSO.setTreasuryAddress(user.address))
+      .to.emit(EBSO, 'eBSOTreasuryAddressChange')
       .withArgs(user.address);
   });
 
@@ -153,17 +157,14 @@ describe('eBSO - 004: set addresses', () => {
   });
 
   it('an AML admin should not be able to set treasury address', async () => {
-    await expect(EBSO.connect(amlAdmin).setTreasuryAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setTreasuryAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set treasury address', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setTreasuryAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setTreasuryAddress(user.address)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set treasury address', async () => {
-    await expect(EBSO.connect(user).setTreasuryAddress(user.address)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setTreasuryAddress(user.address)).to.be.revertedWith('missing role');
   });
 });

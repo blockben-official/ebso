@@ -106,9 +106,9 @@ When running coverage tests, the testing framework adds some extra functionality
 
 | File                  | % Stmts    | % Branch   | % Funcs    | % Lines    | Uncovered Lines  |
 | --------------------- | ---------- | ---------- | ---------- | ---------- | ---------------- |
-| contracts/            | 100        | 84.62      | 100        | 100        |                  |
+| contracts/            | 100        | 100        | 100        | 100        |                  |
 | EBlockStock.sol       | 100        | 100        | 100        | 100        |                  |
-| EBlockStockACL.sol    | 100        | 60         | 100        | 100        |                  |
+| EBlockStockACL.sol    | 100        | 100        | 100        | 100        |                  |
 | --------------------- | ---------- | ---------- | ---------- | ---------- | ---------------- |
 | All files             | 100        | 100        | 100        | 100        |                  |
 
