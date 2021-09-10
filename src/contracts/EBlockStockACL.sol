@@ -6,8 +6,8 @@ import '@openzeppelin/contracts/access/AccessControl.sol';
 import '@openzeppelin/contracts/utils/Context.sol';
 
 abstract contract EBlockStockACL is Pausable, AccessControl {
-  /// @notice EBSO_ADMIN
-  bytes32 public constant EBSO_ADMIN = keccak256('EBSO_ADMIN');
+  /// @notice TOKEN_ADMIN
+  bytes32 public constant TOKEN_ADMIN = keccak256('TOKEN_ADMIN');
 
   /// @notice TREASURY_ADMIN. Treasury admins can only mint or burn
   bytes32 public constant TREASURY_ADMIN = keccak256('TREASURY_ADMIN');
@@ -49,15 +49,15 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
     require(_superadmin != address(0), '_superadmin cannot be 0');
     superadmin = _superadmin;
 
-    _setRoleAdmin(EBSO_ADMIN, EBSO_ADMIN);
-    _setRoleAdmin(TREASURY_ADMIN, EBSO_ADMIN);
-    _setRoleAdmin(AML_ADMIN, EBSO_ADMIN);
+    _setRoleAdmin(TOKEN_ADMIN, TOKEN_ADMIN);
+    _setRoleAdmin(TREASURY_ADMIN, TOKEN_ADMIN);
+    _setRoleAdmin(AML_ADMIN, TOKEN_ADMIN);
 
-    _setupRole(EBSO_ADMIN, _superadmin);
+    _setupRole(TOKEN_ADMIN, _superadmin);
     _setupRole(TREASURY_ADMIN, _superadmin);
     _setupRole(AML_ADMIN, _superadmin);
 
-    _setupRole(EBSO_ADMIN, _msgSender());
+    _setupRole(TOKEN_ADMIN, _msgSender());
   }
 
   /**
@@ -102,44 +102,44 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
     emit eBSODestinationAccountBL(_account, _lockValue);
   }
 
-  function setUrl(string calldata _newUrl) external onlyRole(EBSO_ADMIN) {
+  function setUrl(string calldata _newUrl) external onlyRole(TOKEN_ADMIN) {
     url = _newUrl;
     emit eBSOUrlSet(_newUrl);
   }
 
-  function setTreasuryAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+  function setTreasuryAddress(address _newAddress) external onlyRole(TOKEN_ADMIN) {
     require(_newAddress != address(0), 'treasury address cannot be 0');
     treasuryAddress = _newAddress;
     emit eBSOTreasuryAddressChange(_newAddress);
   }
 
-  function setFeeAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+  function setFeeAddress(address _newAddress) external onlyRole(TOKEN_ADMIN) {
     require(_newAddress != address(0), 'fee address cannot be 0');
     feeAddress = _newAddress;
     emit eBSOFeeAddressChange(_newAddress);
   }
 
-  function setBsoPoolAddress(address _newAddress) external onlyRole(EBSO_ADMIN) {
+  function setBsoPoolAddress(address _newAddress) external onlyRole(TOKEN_ADMIN) {
     require(_newAddress != address(0), 'bso pool address cannot be 0');
     bsoPoolAddress = _newAddress;
     emit eBSOBsoPoolAddressChange(_newAddress);
   }
 
-  function setGeneralFee(uint16 _newFee) external onlyRole(EBSO_ADMIN) {
+  function setGeneralFee(uint16 _newFee) external onlyRole(TOKEN_ADMIN) {
     generalFee = _newFee;
     emit eBSOGeneralFeeChange(_newFee);
   }
 
-  function setBsoFee(uint16 _newFee) external onlyRole(EBSO_ADMIN) {
+  function setBsoFee(uint16 _newFee) external onlyRole(TOKEN_ADMIN) {
     bsoFee = _newFee;
     emit eBSOBsoFeeChange(_newFee);
   }
 
-  function pause() external onlyRole(EBSO_ADMIN) {
+  function pause() external onlyRole(TOKEN_ADMIN) {
     _pause();
   }
 
-  function unpause() external onlyRole(EBSO_ADMIN) {
+  function unpause() external onlyRole(TOKEN_ADMIN) {
     _unpause();
   }
 }

@@ -17,7 +17,7 @@ describe('eBSO - 005: set fees', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -27,7 +27,7 @@ describe('eBSO - 005: set fees', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });
@@ -41,9 +41,7 @@ describe('eBSO - 005: set fees', () => {
   });
 
   it('setting general fee should emit event', async () => {
-    await expect(EBSO.setGeneralFee(50)).to
-      .emit(EBSO, 'eBSOGeneralFeeChange')
-      .withArgs(50);
+    await expect(EBSO.setGeneralFee(50)).to.emit(EBSO, 'eBSOGeneralFeeChange').withArgs(50);
   });
 
   it('an eBSO admin should be able to set general fee', async () => {
@@ -63,18 +61,15 @@ describe('eBSO - 005: set fees', () => {
   });
 
   it('an AML admin should not be able to set general fee', async () => {
-    await expect(EBSO.connect(amlAdmin).setGeneralFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setGeneralFee(60)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set general fee', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setGeneralFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setGeneralFee(60)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set general fee', async () => {
-    await expect(EBSO.connect(user).setGeneralFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setGeneralFee(60)).to.be.revertedWith('missing role');
   });
 
   it('BSO fee can be set', async () => {
@@ -86,9 +81,7 @@ describe('eBSO - 005: set fees', () => {
   });
 
   it('setting BSO fee should emit event', async () => {
-    await expect(EBSO.setBsoFee(30)).to
-      .emit(EBSO, 'eBSOBsoFeeChange')
-      .withArgs(30);
+    await expect(EBSO.setBsoFee(30)).to.emit(EBSO, 'eBSOBsoFeeChange').withArgs(30);
   });
 
   it('an eBSO admin should be able to set BSO fee', async () => {
@@ -108,17 +101,14 @@ describe('eBSO - 005: set fees', () => {
   });
 
   it('an AML admin should not be able to set BSO fee', async () => {
-    await expect(EBSO.connect(amlAdmin).setBsoFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setBsoFee(60)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set BSO fee', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setBsoFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setBsoFee(60)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set BSO fee', async () => {
-    await expect(EBSO.connect(user).setBsoFee(60)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setBsoFee(60)).to.be.revertedWith('missing role');
   });
 });

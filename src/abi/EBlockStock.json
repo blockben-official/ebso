@@ -305,7 +305,7 @@
   },
   {
     "inputs": [],
-    "name": "EBSO_ADMIN",
+    "name": "TOKEN_ADMIN",
     "outputs": [
       {
         "internalType": "bytes32",

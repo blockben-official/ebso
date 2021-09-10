@@ -17,7 +17,7 @@ describe('eBSO - 010: allowance', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -63,13 +63,12 @@ describe('eBSO - 010: allowance', () => {
   it('approve should fail if the contract is paused', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to.be.revertedWith('Pausable: paused');
   });
 
   it('approve should emit Approval event', async () => {
-    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to
-      .emit(EBSO, 'Approval')
+    await expect(EBSO.connect(assignor).approve(user.address, 2000))
+      .to.emit(EBSO, 'Approval')
       .withArgs(assignor.address, user.address, 2000);
   });
 
@@ -94,15 +93,14 @@ describe('eBSO - 010: allowance', () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
     await EBSO.pause();
 
-    await expect(EBSO.connect(assignor).increaseAllowance(user.address, 1000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(assignor).increaseAllowance(user.address, 1000)).to.be.revertedWith('Pausable: paused');
   });
 
   it('increasing allowance should emit Approval event with the increased allowance value', async () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(assignor).increaseAllowance(user.address, 1000)).to
-      .emit(EBSO, 'Approval')
+    await expect(EBSO.connect(assignor).increaseAllowance(user.address, 1000))
+      .to.emit(EBSO, 'Approval')
       .withArgs(assignor.address, user.address, 3000);
   });
 
@@ -118,28 +116,29 @@ describe('eBSO - 010: allowance', () => {
   it('decreasing allowance should fail without a sufficient actual allowance value', async () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 5000)).to
-      .be.revertedWith('ERC20: decreased allowance below zero');
+    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 5000)).to.be.revertedWith(
+      'ERC20: decreased allowance below zero'
+    );
   });
 
   it('decreasing allowance should fail without any approval before because of unsufficient allowance value', async () => {
-    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500)).to
-      .be.revertedWith('ERC20: decreased allowance below zero');
+    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500)).to.be.revertedWith(
+      'ERC20: decreased allowance below zero'
+    );
   });
 
   it('decreasing allowance should fail if the contract is paused', async () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
     await EBSO.pause();
 
-    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500)).to.be.revertedWith('Pausable: paused');
   });
 
   it('decreasing allowance should emit Approval event with the decreased allowance value', async () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500)).to
-      .emit(EBSO, 'Approval')
+    await expect(EBSO.connect(assignor).decreaseAllowance(user.address, 500))
+      .to.emit(EBSO, 'Approval')
       .withArgs(assignor.address, user.address, 1500);
   });
 });

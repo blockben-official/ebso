@@ -17,7 +17,7 @@ describe('eBSO - 003: manage blacklists', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -27,7 +27,7 @@ describe('eBSO - 003: manage blacklists', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });
@@ -133,13 +133,6 @@ describe('eBSO - 003: manage blacklists', () => {
 
       expect(isBlacklisted).to.eq(true);
     }
-  });
-
-  it.skip('should emit eBSODestinationAccountBL event', async () => {
-    const addressList = addresses.map((a) => a.address);
-    await expect(EBSO.connect(amlAdmin).setBatchDestinationAccountBL(addressList, true))
-      .to.emit(EBSO, 'eBSODestinationAccountBL')
-      .withArgs(addressList, true);
   });
 
   it('superadmin should be able to blacklist a user as a destination', async () => {

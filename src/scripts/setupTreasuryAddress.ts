@@ -2,7 +2,7 @@ import { ethers, run } from 'hardhat';
 import { EBlockStock } from '../typechain';
 
 const treasuryAddress = process.env.TREASURY_ADDRESS as string;
-const eBsoAdminAddress = process.env.EBSO_ADMIN_ADDRESS as string;
+const eBsoAdminAddress = process.env.TOKEN_ADMIN_ADDRESS as string;
 const eBsoAddress = process.env.EBSO_ADDRESS as string;
 
 async function setupTreasuryAddress() {

@@ -17,7 +17,7 @@ describe('eBSO - 006: set url', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -27,7 +27,7 @@ describe('eBSO - 006: set url', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });
@@ -41,9 +41,7 @@ describe('eBSO - 006: set url', () => {
   });
 
   it('setting url should emit event', async () => {
-    await expect(EBSO.setUrl('http://xxx.x')).to
-      .emit(EBSO, 'eBSOUrlSet')
-      .withArgs('http://xxx.x');
+    await expect(EBSO.setUrl('http://xxx.x')).to.emit(EBSO, 'eBSOUrlSet').withArgs('http://xxx.x');
   });
 
   it('an eBSO admin should be able to set url', async () => {
@@ -63,17 +61,14 @@ describe('eBSO - 006: set url', () => {
   });
 
   it('an AML admin should not be able to set url', async () => {
-    await expect(EBSO.connect(amlAdmin).setUrl('http://xxx.x')).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).setUrl('http://xxx.x')).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to set url', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setUrl('http://xxx.x')).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setUrl('http://xxx.x')).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to set url', async () => {
-    await expect(EBSO.connect(user).setUrl('http://xxx.x')).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setUrl('http://xxx.x')).to.be.revertedWith('missing role');
   });
 });
