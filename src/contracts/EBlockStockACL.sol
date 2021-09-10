@@ -36,9 +36,7 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
   uint16 public bsoFee;
 
   event eBSOSourceAccountBL(address indexed _account, bool _lockValue);
-  event eBSOBatchSourceAccountBL(address[] indexed _account, bool _lockValue);
   event eBSODestinationAccountBL(address indexed _account, bool _lockValue);
-  event eBSOBatchDestinationAccountBL(address[] indexed _account, bool _lockValue);
   event eBSOUrlSet(string url);
   event eBSOTreasuryAddressChange(address _newAddress);
   event eBSOFeeAddressChange(address _newAddress);
@@ -86,19 +84,17 @@ abstract contract EBlockStockACL is Pausable, AccessControl {
   }
 
   function setBatchSourceAccountBL(address[] calldata _addresses, bool _lockValue) external onlyRole(AML_ADMIN) {
+    require(_addresses.length <= 200, 'Batch: too many addresses');
     for (uint256 i = 0; i < _addresses.length; i++) {
       sourceAccountBL[_addresses[i]] = _lockValue;
     }
-
-    emit eBSOBatchSourceAccountBL(_addresses, _lockValue);
   }
 
   function setBatchDestinationAccountBL(address[] calldata _addresses, bool _lockValue) external onlyRole(AML_ADMIN) {
+    require(_addresses.length <= 200, 'Batch: too many addresses');
     for (uint256 i = 0; i < _addresses.length; i++) {
       destinationAccountBL[_addresses[i]] = _lockValue;
     }
-
-    emit eBSOBatchDestinationAccountBL(_addresses, _lockValue);
   }
 
   function setDestinationAccountBL(address _account, bool _lockValue) external onlyRole(AML_ADMIN) {

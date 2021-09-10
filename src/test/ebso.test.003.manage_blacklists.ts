@@ -57,12 +57,22 @@ describe('eBSO - 003: manage blacklists', () => {
     }
   });
 
-  it('should emit batch blacklist event', async () => {
-    const addressList = addresses.map((a) => a.address);
-    await expect(EBSO.connect(amlAdmin).setBatchSourceAccountBL(addressList, true))
-      .to.emit(EBSO, 'eBSOBatchSourceAccountBL')
-      .withArgs(addressList, true);
+  it('should revert when address size is larger than 200', async () => {
+    const addressList = Array(201).fill(user.address);
+
+    await expect(EBSO.connect(amlAdmin).setBatchSourceAccountBL(addressList, true)).to.be.revertedWith(
+      'Batch: too many addresses'
+    );
   });
+
+  it('should revert when address size is larger than 200', async () => {
+    const addressList = Array(201).fill(user.address);
+
+    await expect(EBSO.connect(amlAdmin).setBatchDestinationAccountBL(addressList, true)).to.be.revertedWith(
+      'Batch: too many addresses'
+    );
+  });
+
   it('an AML admin should be able to blacklist a user as a source', async () => {
     await EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true);
 
@@ -125,7 +135,7 @@ describe('eBSO - 003: manage blacklists', () => {
     }
   });
 
-  it('should emit eBSODestinationAccountBL event', async () => {
+  it.skip('should emit eBSODestinationAccountBL event', async () => {
     const addressList = addresses.map((a) => a.address);
     await expect(EBSO.connect(amlAdmin).setBatchDestinationAccountBL(addressList, true))
       .to.emit(EBSO, 'eBSODestinationAccountBL')

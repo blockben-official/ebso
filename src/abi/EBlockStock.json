@@ -165,44 +165,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address[]",
-        "name": "_account",
-        "type": "address[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "_lockValue",
-        "type": "bool"
-      }
-    ],
-    "name": "eBSOBatchDestinationAccountBL",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address[]",
-        "name": "_account",
-        "type": "address[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "_lockValue",
-        "type": "bool"
-      }
-    ],
-    "name": "eBSOBatchSourceAccountBL",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": false,
         "internalType": "uint256",
         "name": "_newFee",
@@ -471,6 +433,32 @@
     "name": "burn",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "c__0x7c46eed9",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0x7c46eed9",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "c__0xe9682d5d",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0xe9682d5d",
+    "outputs": [],
+    "stateMutability": "pure",
     "type": "function"
   },
   {
