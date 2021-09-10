@@ -19,7 +19,7 @@ describe('eBSO - 009: mint - burn', () => {
   let addresses: SignerWithAddress[];
   let nullAddress: String = '0x0000000000000000000000000000000000000000';
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -29,7 +29,7 @@ describe('eBSO - 009: mint - burn', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
     await EBSO.setTreasuryAddress(treasury.address);
@@ -46,8 +46,8 @@ describe('eBSO - 009: mint - burn', () => {
   });
 
   it('mint should emit Transfer event from null address', async () => {
-    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000)).to
-      .emit(EBSO, 'Transfer')
+    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000))
+      .to.emit(EBSO, 'Transfer')
       .withArgs(nullAddress, user.address, 10000);
   });
 
@@ -60,8 +60,7 @@ describe('eBSO - 009: mint - burn', () => {
   });
 
   it('an eBSO admin should not be able to mint', async () => {
-    await expect(EBSO.connect(eBSOAdmin).mint(user.address, 10000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).mint(user.address, 10000)).to.be.revertedWith('missing role');
   });
 
   it('superadmin should be able to mint', async () => {
@@ -73,13 +72,11 @@ describe('eBSO - 009: mint - burn', () => {
   });
 
   it('an AML admin should not be able to mint', async () => {
-    await expect(EBSO.connect(amlAdmin).mint(user.address, 10000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).mint(user.address, 10000)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to mint', async () => {
-    await expect(EBSO.connect(user).mint(user.address, 10000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).mint(user.address, 10000)).to.be.revertedWith('missing role');
   });
 
   it('source account blacklist is not relevant on the target of minting', async () => {
@@ -94,15 +91,13 @@ describe('eBSO - 009: mint - burn', () => {
   it('mint should fail if the address is blacklisted as a destination', async () => {
     await EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true);
 
-    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000)).to
-      .be.revertedWith('Blacklist: target');
+    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000)).to.be.revertedWith('Blacklist: target');
   });
 
   it('mint should fail if the contract is paused', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(treasuryAdmin).mint(user.address, 10000)).to.be.revertedWith('Pausable: paused');
   });
 
   it('burn should result in a proper balance of treasury', async () => {
@@ -119,8 +114,8 @@ describe('eBSO - 009: mint - burn', () => {
   it('burn should emit Transfer event from treasury to null address', async () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
 
-    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to
-      .emit(EBSO, 'Transfer')
+    await expect(EBSO.connect(treasuryAdmin).burn(5000))
+      .to.emit(EBSO, 'Transfer')
       .withArgs(treasury.address, nullAddress, 5000);
   });
 
@@ -136,8 +131,7 @@ describe('eBSO - 009: mint - burn', () => {
   it('an eBSO admin should not be able to burn', async () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
 
-    await expect(EBSO.connect(eBSOAdmin).burn(5000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).burn(5000)).to.be.revertedWith('missing role');
   });
 
   it('superadmin should be able to burn', async () => {
@@ -152,28 +146,24 @@ describe('eBSO - 009: mint - burn', () => {
   it('an AML admin should not be able to burn', async () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
 
-    await expect(EBSO.connect(amlAdmin).burn(5000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).burn(5000)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to burn', async () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
 
-    await expect(EBSO.connect(user).burn(5000)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).burn(5000)).to.be.revertedWith('missing role');
   });
 
   it('burn should fail without sufficient balance', async () => {
-    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to
-      .be.revertedWith('ERC20: burn amount exceeds balance');
+    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to.be.revertedWith('ERC20: burn amount exceeds balance');
   });
 
   it('burn should fail if treasury is blacklisted as a source', async () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
     await EBSO.connect(amlAdmin).setSourceAccountBL(treasury.address, true);
 
-    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to
-      .be.revertedWith('Blacklist: treasury');
+    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to.be.revertedWith('Blacklist: treasury');
   });
 
   it('destination account blacklist is not relevant on the target of burning (treasury)', async () => {
@@ -190,7 +180,6 @@ describe('eBSO - 009: mint - burn', () => {
     await EBSO.connect(treasuryAdmin).mint(treasury.address, 10000);
     await EBSO.pause();
 
-    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(treasuryAdmin).burn(5000)).to.be.revertedWith('Pausable: paused');
   });
 });

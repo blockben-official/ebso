@@ -19,7 +19,7 @@ describe('eBSO - 011: allowance zero-check', () => {
   let anotherUser: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -38,8 +38,7 @@ describe('eBSO - 011: allowance zero-check', () => {
   it('approve should fail if there is a non-zero actual allowance value', async () => {
     await EBSO.connect(assignor).approve(user.address, 4000);
 
-    await expect(EBSO.connect(assignor).approve(user.address, 3000)).to
-      .be.revertedWith('Approve: zero first');
+    await expect(EBSO.connect(assignor).approve(user.address, 3000)).to.be.revertedWith('Approve: zero first');
   });
 
   it('approving zero amount should succeed even if there is a non-zero actual allowance value', async () => {
@@ -75,8 +74,7 @@ describe('eBSO - 011: allowance zero-check', () => {
     await EBSO.connect(assignor).approve(user.address, 4000);
     await EBSO.connect(assignor).decreaseAllowance(user.address, 1000);
 
-    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to
-      .be.revertedWith('Approve: zero first');
+    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to.be.revertedWith('Approve: zero first');
   });
 
   it('approve should succeed if the previous non-zero allowance was fully transferred before', async () => {
@@ -95,7 +93,6 @@ describe('eBSO - 011: allowance zero-check', () => {
     await EBSO.connect(assignor).approve(user.address, 4000);
     await EBSO.connect(user).transferFrom(assignor.address, user.address, 1000);
 
-    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to
-      .be.revertedWith('Approve: zero first');
+    await expect(EBSO.connect(assignor).approve(user.address, 2000)).to.be.revertedWith('Approve: zero first');
   });
 });

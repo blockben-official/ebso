@@ -17,7 +17,7 @@ describe('eBSO - 003: manage blacklists', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -27,7 +27,7 @@ describe('eBSO - 003: manage blacklists', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });
@@ -41,9 +41,36 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('blocking a user as a source should emit event', async () => {
-    await expect(EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true)).to
-      .emit(EBSO, 'eBSOSourceAccountBL')
+    await expect(EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true))
+      .to.emit(EBSO, 'eBSOSourceAccountBL')
       .withArgs(user.address, true);
+  });
+
+  it('lots of users can be blacklisted on the source list', async () => {
+    const addressList = addresses.map((a) => a.address);
+
+    await EBSO.connect(amlAdmin).setBatchSourceAccountBL(addressList, true);
+
+    for (const address of addressList) {
+      const isBlacklisted = await EBSO.getSourceAccountBL(address);
+      expect(isBlacklisted).to.eq(true);
+    }
+  });
+
+  it('should revert when address size is larger than 200', async () => {
+    const addressList = Array(201).fill(user.address);
+
+    await expect(EBSO.connect(amlAdmin).setBatchSourceAccountBL(addressList, true)).to.be.revertedWith(
+      'Batch: too many addresses'
+    );
+  });
+
+  it('should revert when address size is larger than 200', async () => {
+    const addressList = Array(201).fill(user.address);
+
+    await expect(EBSO.connect(amlAdmin).setBatchDestinationAccountBL(addressList, true)).to.be.revertedWith(
+      'Batch: too many addresses'
+    );
   });
 
   it('an AML admin should be able to blacklist a user as a source', async () => {
@@ -63,18 +90,15 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('an eBSO admin should not be able to blacklist a user as a source', async () => {
-    await expect(EBSO.connect(eBSOAdmin).setSourceAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).setSourceAccountBL(user.address, true)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to blacklist a user as a source', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setSourceAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setSourceAccountBL(user.address, true)).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to blacklist a user as a source', async () => {
-    await expect(EBSO.connect(user).setSourceAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setSourceAccountBL(user.address, true)).to.be.revertedWith('missing role');
   });
 
   it('a user can be blacklisted as a destination', async () => {
@@ -86,8 +110,8 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('blocking a user as a destination should emit event', async () => {
-    await expect(EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true)).to
-      .emit(EBSO, 'eBSODestinationAccountBL')
+    await expect(EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true))
+      .to.emit(EBSO, 'eBSODestinationAccountBL')
       .withArgs(user.address, true);
   });
 
@@ -99,6 +123,18 @@ describe('eBSO - 003: manage blacklists', () => {
     expect(isBlacklisted).to.eq(true);
   });
 
+  it('AML admin should be able to blacklist address list', async () => {
+    const addressList = addresses.map((a) => a.address);
+
+    await EBSO.connect(amlAdmin).setBatchDestinationAccountBL(addressList, true);
+
+    for (const address of addressList) {
+      const isBlacklisted = await EBSO.getDestinationAccountBL(address);
+
+      expect(isBlacklisted).to.eq(true);
+    }
+  });
+
   it('superadmin should be able to blacklist a user as a destination', async () => {
     await EBSO.connect(superadmin).setDestinationAccountBL(user.address, true);
 
@@ -108,18 +144,19 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('an eBSO admin should not be able to blacklist a user as a destination', async () => {
-    await expect(EBSO.connect(eBSOAdmin).setDestinationAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).setDestinationAccountBL(user.address, true)).to.be.revertedWith(
+      'missing role'
+    );
   });
 
   it('a treasury admin should not be able to blacklist a user as a destination', async () => {
-    await expect(EBSO.connect(treasuryAdmin).setDestinationAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setDestinationAccountBL(user.address, true)).to.be.revertedWith(
+      'missing role'
+    );
   });
 
   it('a simple user should not be able to blacklist a user as a destination', async () => {
-    await expect(EBSO.connect(user).setDestinationAccountBL(user.address, true)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setDestinationAccountBL(user.address, true)).to.be.revertedWith('missing role');
   });
 
   it('a user can be removed from the source account blacklist', async () => {
@@ -132,8 +169,8 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('unblocking a user as a source should emit event', async () => {
-    await expect(EBSO.connect(amlAdmin).setSourceAccountBL(user.address, false)).to
-      .emit(EBSO, 'eBSOSourceAccountBL')
+    await expect(EBSO.connect(amlAdmin).setSourceAccountBL(user.address, false))
+      .to.emit(EBSO, 'eBSOSourceAccountBL')
       .withArgs(user.address, false);
   });
 
@@ -158,22 +195,21 @@ describe('eBSO - 003: manage blacklists', () => {
   it('an eBSO admin should not be able to remove a user from the source account blacklist', async () => {
     await EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true);
 
-    await expect(EBSO.connect(eBSOAdmin).setSourceAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).setSourceAccountBL(user.address, false)).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to remove a user from the source account blacklist', async () => {
     await EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true);
 
-    await expect(EBSO.connect(treasuryAdmin).setSourceAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setSourceAccountBL(user.address, false)).to.be.revertedWith(
+      'missing role'
+    );
   });
 
   it('a simple user should not be able to remove a user from the source account blacklist', async () => {
     await EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true);
 
-    await expect(EBSO.connect(user).setSourceAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setSourceAccountBL(user.address, false)).to.be.revertedWith('missing role');
   });
 
   it('a user can be removed from the destination account blacklist', async () => {
@@ -186,8 +222,8 @@ describe('eBSO - 003: manage blacklists', () => {
   });
 
   it('unblocking a user as a destination should emit event', async () => {
-    await expect(EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, false)).to
-      .emit(EBSO, 'eBSODestinationAccountBL')
+    await expect(EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, false))
+      .to.emit(EBSO, 'eBSODestinationAccountBL')
       .withArgs(user.address, false);
   });
 
@@ -212,21 +248,22 @@ describe('eBSO - 003: manage blacklists', () => {
   it('an eBSO admin should not be able to remove a user from the destination account blacklist', async () => {
     await EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true);
 
-    await expect(EBSO.connect(eBSOAdmin).setDestinationAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(eBSOAdmin).setDestinationAccountBL(user.address, false)).to.be.revertedWith(
+      'missing role'
+    );
   });
 
   it('a treasury admin should not be able to remove a user from the destination account blacklist', async () => {
     await EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true);
 
-    await expect(EBSO.connect(treasuryAdmin).setDestinationAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).setDestinationAccountBL(user.address, false)).to.be.revertedWith(
+      'missing role'
+    );
   });
 
   it('a simple user should not be able to remove a user from the destination account blacklist', async () => {
     await EBSO.connect(amlAdmin).setDestinationAccountBL(user.address, true);
 
-    await expect(EBSO.connect(user).setDestinationAccountBL(user.address, false)).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).setDestinationAccountBL(user.address, false)).to.be.revertedWith('missing role');
   });
 });

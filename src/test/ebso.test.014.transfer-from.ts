@@ -20,7 +20,7 @@ describe('eBSO - 014: transfer-from', () => {
   let anotherUser: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -84,23 +84,26 @@ describe('eBSO - 014: transfer-from', () => {
   it('transfer-from should fail without sufficient balance', async () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer amount exceeds balance');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer amount exceeds balance'
+    );
   });
 
   it('transfer-from should fail without any allowance', async () => {
     await EBSO.connect(treasuryAdmin).mint(assignor.address, 10000);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer amount exceeds allowance');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer amount exceeds allowance'
+    );
   });
 
   it('transfer-from should fail without sufficient allowance', async () => {
     await EBSO.connect(treasuryAdmin).mint(assignor.address, 10000);
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 10000)).to
-      .be.revertedWith('ERC20: transfer amount exceeds allowance');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 10000)).to.be.revertedWith(
+      'ERC20: transfer amount exceeds allowance'
+    );
   });
 
   it('increasing allowance should provide the desired allowance', async () => {
@@ -121,8 +124,9 @@ describe('eBSO - 014: transfer-from', () => {
     await EBSO.connect(assignor).approve(user.address, 6000);
     await EBSO.connect(assignor).decreaseAllowance(user.address, 2000);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 6000)).to
-      .be.revertedWith('ERC20: transfer amount exceeds allowance');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 6000)).to.be.revertedWith(
+      'ERC20: transfer amount exceeds allowance'
+    );
   });
 
   it('decreasing allowance should provide the desired allowance', async () => {
@@ -143,8 +147,9 @@ describe('eBSO - 014: transfer-from', () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
     await EBSO.connect(amlAdmin).setSourceAccountBL(assignor.address, true);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .be.revertedWith('Blacklist: sender');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to.be.revertedWith(
+      'Blacklist: sender'
+    );
   });
 
   it('transfer-from should fail if the destination is blacklisted', async () => {
@@ -152,8 +157,9 @@ describe('eBSO - 014: transfer-from', () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
     await EBSO.connect(amlAdmin).setDestinationAccountBL(anotherUser.address, true);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .be.revertedWith('Blacklist: recipient');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to.be.revertedWith(
+      'Blacklist: recipient'
+    );
   });
 
   it('blacklisted account should be able to initiate transfer if the source and destination are not blacklisted', async () => {
@@ -175,16 +181,17 @@ describe('eBSO - 014: transfer-from', () => {
     await EBSO.connect(assignor).approve(user.address, 2000);
     await EBSO.pause();
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to.be.revertedWith(
+      'Pausable: paused'
+    );
   });
 
   it('transfer-from should emit Transfer event', async () => {
     await EBSO.connect(treasuryAdmin).mint(assignor.address, 10000);
     await EBSO.connect(assignor).approve(user.address, 2000);
 
-    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000)).to
-      .emit(EBSO, 'Transfer')
+    await expect(EBSO.connect(user).transferFrom(assignor.address, anotherUser.address, 2000))
+      .to.emit(EBSO, 'Transfer')
       .withArgs(assignor.address, anotherUser.address, 2000);
   });
 });

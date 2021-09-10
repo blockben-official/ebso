@@ -244,7 +244,7 @@
   },
   {
     "inputs": [],
-    "name": "EBSO_ADMIN",
+    "name": "TOKEN_ADMIN",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -292,6 +292,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "c__0xe9682d5d",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0xe9682d5d",
+    "outputs": [],
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -471,6 +484,42 @@
       }
     ],
     "name": "revokeRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_addresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_lockValue",
+        "type": "bool"
+      }
+    ],
+    "name": "setBatchDestinationAccountBL",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_addresses",
+        "type": "address[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_lockValue",
+        "type": "bool"
+      }
+    ],
+    "name": "setBatchSourceAccountBL",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

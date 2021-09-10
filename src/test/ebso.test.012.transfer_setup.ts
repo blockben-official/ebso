@@ -19,12 +19,13 @@ describe('eBSO - 012: transfer setup', () => {
   let toFeeAccount: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
   beforeEach(async () => {
-    [owner, superadmin, treasuryAdmin, treasury, user, anotherUser, toBsoPool, toFeeAccount, ...addresses] = await ethers.getSigners();
+    [owner, superadmin, treasuryAdmin, treasury, user, anotherUser, toBsoPool, toFeeAccount, ...addresses] =
+      await ethers.getSigners();
 
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
@@ -38,8 +39,9 @@ describe('eBSO - 012: transfer setup', () => {
     await EBSO.setGeneralFee(40);
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer to the zero address');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer to the zero address'
+    );
   });
 
   it('transfer between users is possible without any fee address setup when fees are zero', async () => {
@@ -59,8 +61,9 @@ describe('eBSO - 012: transfer setup', () => {
     await EBSO.setBsoPoolAddress(toBsoPool.address);
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer to the zero address');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer to the zero address'
+    );
   });
 
   it('transfer between users is possible without general fee address setup when general fee is zero', async () => {
@@ -81,8 +84,9 @@ describe('eBSO - 012: transfer setup', () => {
     await EBSO.setFeeAddress(toFeeAccount.address);
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer to the zero address');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer to the zero address'
+    );
   });
 
   it('transfer between users is possible without BSO pool address setup when BSO fee is zero', async () => {

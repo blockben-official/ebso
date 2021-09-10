@@ -17,7 +17,7 @@ describe('eBSO - 007: pause - unpause', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -27,7 +27,7 @@ describe('eBSO - 007: pause - unpause', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });
@@ -41,9 +41,7 @@ describe('eBSO - 007: pause - unpause', () => {
   });
 
   it('pausing the contract should emit event', async () => {
-    await expect(EBSO.pause()).to
-      .emit(EBSO, 'Paused')
-      .withArgs(owner.address);
+    await expect(EBSO.pause()).to.emit(EBSO, 'Paused').withArgs(owner.address);
   });
 
   it('an eBSO admin should be able to pause the contract', async () => {
@@ -63,18 +61,15 @@ describe('eBSO - 007: pause - unpause', () => {
   });
 
   it('an AML admin should not be able to pause the contract', async () => {
-    await expect(EBSO.connect(amlAdmin).pause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).pause()).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to pause the contract', async () => {
-    await expect(EBSO.connect(treasuryAdmin).pause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).pause()).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to pause the contract', async () => {
-    await expect(EBSO.connect(user).pause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).pause()).to.be.revertedWith('missing role');
   });
 
   it('the contract can be unpaused', async () => {
@@ -89,9 +84,7 @@ describe('eBSO - 007: pause - unpause', () => {
   it('unpausing the contract should emit event', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.unpause()).to
-      .emit(EBSO, 'Unpaused')
-      .withArgs(owner.address);
+    await expect(EBSO.unpause()).to.emit(EBSO, 'Unpaused').withArgs(owner.address);
   });
 
   it('an eBSO admin should be able to unpause the contract', async () => {
@@ -115,41 +108,35 @@ describe('eBSO - 007: pause - unpause', () => {
   it('an AML admin should not be able to unpause the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(amlAdmin).unpause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(amlAdmin).unpause()).to.be.revertedWith('missing role');
   });
 
   it('a treasury admin should not be able to unpause the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(treasuryAdmin).unpause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(treasuryAdmin).unpause()).to.be.revertedWith('missing role');
   });
 
   it('a simple user should not be able to unpause the contract', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.connect(user).unpause()).to
-      .be.revertedWith('missing role');
+    await expect(EBSO.connect(user).unpause()).to.be.revertedWith('missing role');
   });
 
   it('an already paused contract cannot be paused again', async () => {
     await EBSO.pause();
 
-    await expect(EBSO.pause()).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.pause()).to.be.revertedWith('Pausable: paused');
   });
 
   it('a not paused contract cannot be unpaused ', async () => {
-    await expect(EBSO.unpause()).to
-      .be.revertedWith('Pausable: not paused');
+    await expect(EBSO.unpause()).to.be.revertedWith('Pausable: not paused');
   });
 
   it('an already unpaused contract cannot be unpaused again', async () => {
     await EBSO.pause();
     await EBSO.unpause();
 
-    await expect(EBSO.unpause()).to
-      .be.revertedWith('Pausable: not paused');
+    await expect(EBSO.unpause()).to.be.revertedWith('Pausable: not paused');
   });
 });

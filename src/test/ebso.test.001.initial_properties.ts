@@ -15,7 +15,7 @@ describe('eBSO - 001: initial properties', () => {
   let addresses: SignerWithAddress[];
   let nullAddress: String = '0x0000000000000000000000000000000000000000';
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -117,19 +117,19 @@ describe('eBSO - 001: initial properties', () => {
   });
 
   it('the owner is eBSO admin by default', async () => {
-    const isEBSOAdmin = await EBSO.hasRole(EBSO_ADMIN, owner.address);
+    const isEBSOAdmin = await EBSO.hasRole(TOKEN_ADMIN, owner.address);
 
     expect(isEBSOAdmin).to.eq(true);
   });
 
   it('superadmin is eBSO admin by default', async () => {
-    const isEBSOAdmin = await EBSO.hasRole(EBSO_ADMIN, superadmin.address);
+    const isEBSOAdmin = await EBSO.hasRole(TOKEN_ADMIN, superadmin.address);
 
     expect(isEBSOAdmin).to.eq(true);
   });
 
   it('a user is not eBSO admin by default', async () => {
-    const isEBSOAdmin = await EBSO.hasRole(EBSO_ADMIN, user.address);
+    const isEBSOAdmin = await EBSO.hasRole(TOKEN_ADMIN, user.address);
 
     expect(isEBSOAdmin).to.eq(false);
   });

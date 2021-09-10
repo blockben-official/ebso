@@ -25,7 +25,7 @@ describe.skip('eBSO - 008: kill', () => {
   let user: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -35,7 +35,7 @@ describe.skip('eBSO - 008: kill', () => {
     const eBSOContract = await ethers.getContractFactory('EBlockStock', owner);
     EBSO = (await eBSOContract.deploy(superadmin.address)) as EBlockStock;
 
-    await EBSO.grantRole(EBSO_ADMIN, eBSOAdmin.address);
+    await EBSO.grantRole(TOKEN_ADMIN, eBSOAdmin.address);
     await EBSO.grantRole(AML_ADMIN, amlAdmin.address);
     await EBSO.grantRole(TREASURY_ADMIN, treasuryAdmin.address);
   });

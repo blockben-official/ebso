@@ -20,7 +20,7 @@ describe('eBSO - 013: transfer', () => {
   let anotherUser: SignerWithAddress;
   let addresses: SignerWithAddress[];
 
-  const EBSO_ADMIN = ethers.utils.id('EBSO_ADMIN');
+  const TOKEN_ADMIN = ethers.utils.id('TOKEN_ADMIN');
   const AML_ADMIN = ethers.utils.id('AML_ADMIN');
   const TREASURY_ADMIN = ethers.utils.id('TREASURY_ADMIN');
 
@@ -112,24 +112,23 @@ describe('eBSO - 013: transfer', () => {
   });
 
   it('transfer should fail without sufficient balance', async () => {
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('ERC20: transfer amount exceeds balance');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith(
+      'ERC20: transfer amount exceeds balance'
+    );
   });
 
   it('transfer should fail if the source is blacklisted', async () => {
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
     await EBSO.connect(amlAdmin).setSourceAccountBL(user.address, true);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('Blacklist: sender');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith('Blacklist: sender');
   });
 
   it('transfer should fail if the destination is blacklisted', async () => {
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
     await EBSO.connect(amlAdmin).setDestinationAccountBL(anotherUser.address, true);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('Blacklist: recipient');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith('Blacklist: recipient');
   });
 
   it('transfer is not affected if general fee account is blacklisted as a destination', async () => {
@@ -196,15 +195,14 @@ describe('eBSO - 013: transfer', () => {
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
     await EBSO.pause();
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .be.revertedWith('Pausable: paused');
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to.be.revertedWith('Pausable: paused');
   });
 
   it('transfer should emit Transfer event', async () => {
     await EBSO.connect(treasuryAdmin).mint(user.address, 10000);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000)).to
-      .emit(EBSO, 'Transfer')
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 2000))
+      .to.emit(EBSO, 'Transfer')
       .withArgs(user.address, anotherUser.address, 2000);
   });
 
@@ -213,8 +211,8 @@ describe('eBSO - 013: transfer', () => {
     await EBSO.setGeneralFee(400);
     await EBSO.connect(treasuryAdmin).mint(user.address, 1000000);
 
-    await expect(EBSO.connect(user).transfer(anotherUser.address, 700000)).to
-      .emit(EBSO, 'Transfer')
+    await expect(EBSO.connect(user).transfer(anotherUser.address, 700000))
+      .to.emit(EBSO, 'Transfer')
       .withArgs(user.address, anotherUser.address, 693700)
       .emit(EBSO, 'Transfer')
       .withArgs(user.address, bsoPool.address, 3500)
