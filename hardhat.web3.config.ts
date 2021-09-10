@@ -81,13 +81,9 @@ const config: HardhatUserConfig = {
     deployments: './src/deployments',
   },
   typechain: {
-    outDir: 'src/typechain',
-    target: 'ethers-v5',
+    outDir: 'src/typechain/web3',
+    target: 'web3-v1',
   },
-  // typechain: {
-  //   outDir: 'dist/typechain-web3',
-  //   target: 'web3-v1',
-  // },
 };
 
 export default config;
