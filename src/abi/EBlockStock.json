@@ -436,32 +436,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "c__0x7c46eed9",
-        "type": "bytes32"
-      }
-    ],
-    "name": "c_0x7c46eed9",
-    "outputs": [],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "c__0xe9682d5d",
-        "type": "bytes32"
-      }
-    ],
-    "name": "c_0xe9682d5d",
-    "outputs": [],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "decimals",
     "outputs": [

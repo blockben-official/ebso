@@ -57,6 +57,17 @@ describe('eBSO - 003: manage blacklists', () => {
     }
   });
 
+  it('200 users can be blacklisted on the source list', async () => {
+    const addressList = Array(200).fill(user.address);
+
+    await EBSO.connect(amlAdmin).setBatchSourceAccountBL(addressList, true);
+
+    for (const address of addressList) {
+      const isBlacklisted = await EBSO.getSourceAccountBL(address);
+      expect(isBlacklisted).to.eq(true);
+    }
+  });
+
   it('should revert when address size is larger than 200', async () => {
     const addressList = Array(201).fill(user.address);
 

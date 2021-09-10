@@ -1,7 +1,7 @@
 {
-  "name": "ebso-token",
-  "version": "0.0.2",
-  "description": "ebso-token",
+  "name": "ebso",
+  "version": "0.0.3",
+  "description": "EBSO",
   "main": "index.js",
   "scripts": {
     "postinstall": "npm run compile",
@@ -17,8 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.blockben.ninja/blockbencore/bb/ebso-token.git"
+    "url": "git+https://github.com/blockben-official/ebso.git"
   },
+  "bugs": {
+    "url": "https://github.com/blockben-official/bnox/issues"
+  },
+  "homepage": "https://github.com/blockben-official/ebso#readme",
   "keywords": [],
   "author": "",
   "license": "ISC",
