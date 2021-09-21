@@ -7,12 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.3] - 2021-09-10
+## [0.0.3] - 2021-09-21
 
 ### Added
 
 - Batch update sourceAccountBL + tests
 - Batch update sourceAccountBL + tests
+- CertiK final audit
+- Deployment scripts
+- .env.example for deployment scripts
+
+### Changed
+
+- Hardhat config for ethersjs
+- Hardhat config for web3js
+- Tsconfig json import
 
 ## [0.0.2] - 2021-09-07
 
@@ -73,4 +82,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [unreleased]: https://github.com/blockben-official/ebso/compare/v0.0.3...HEAD
 [0.0.1]: https://github.com/blockben-official/ebso/releases/tag/v0.0.1
 [0.0.2]: https://github.com/blockben-official/ebso/releases/tag/v0.0.2
-[0.0.2]: https://github.com/blockben-official/ebso/releases/tag/v0.0.3
+[0.0.3]: https://github.com/blockben-official/ebso/releases/tag/v0.0.3
